@@ -38,7 +38,7 @@ class CfgMods
 			class gameScriptModule
 			{
 				value = "";
-				files[] = { "ZenChickenCoops/scripts/3_Game"; };
+				files[] = { "ZenChickenCoops/scripts/3_Game" };
 			};
 			class worldScriptModule
 			{
