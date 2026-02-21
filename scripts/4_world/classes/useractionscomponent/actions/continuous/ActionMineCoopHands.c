@@ -19,9 +19,9 @@ class ActionMineCoopHands : ActionContinuousBase
 
 		// Get feather display name (doing it this way automatically displays local language translation)
 		string featherConfigPath = "CfgVehicles ChickenFeather displayName";
-		if (GetGame().ConfigIsExisting(featherConfigPath))
+		if (g_Game.ConfigIsExisting(featherConfigPath))
 		{
-			GetGame().ConfigGetText(featherConfigPath, featherDisplayName);
+			g_Game.ConfigGetText(featherConfigPath, featherDisplayName);
 		}
 
 		m_Text = "#harvest" + " " + featherDisplayName;
@@ -80,7 +80,7 @@ class ActionMineCoopHands : ActionContinuousBase
 		ItemBase chickenFeather = ItemBase.Cast(action_data.m_Player.GetHumanInventory().CreateInHands("ChickenFeather"));
 		if (!chickenFeather)
 		{
-			chickenFeather = ItemBase.Cast(GetGame().CreateObjectEx("ChickenFeather", action_data.m_Player.GetPosition(), ECE_PLACE_ON_SURFACE));
+			chickenFeather = ItemBase.Cast(g_Game.CreateObjectEx("ChickenFeather", action_data.m_Player.GetPosition(), ECE_PLACE_ON_SURFACE));
 		}
 
 		if (!chickenFeather)
@@ -129,6 +129,6 @@ class ActionMineCoopHands : ActionContinuousBase
 		Msgparam = new Param1<string>(message);
 
 		if (player != null && player.IsAlive())
-			GetGame().RPCSingleParam(player, ERPCs.RPC_USER_ACTION_MESSAGE, Msgparam, true, playerIdentity);
+			g_Game.RPCSingleParam(player, ERPCs.RPC_USER_ACTION_MESSAGE, Msgparam, true, playerIdentity);
 	}
 };

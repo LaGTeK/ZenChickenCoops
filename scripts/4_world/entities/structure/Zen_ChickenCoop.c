@@ -4,7 +4,7 @@ class Zen_ChickenCoop extends BuildingSuper
 
 	void Zen_ChickenCoop()
 	{
-		if (GetGame().IsServer())
+		if (g_Game.IsServer())
 		{
 			int minFeathers = GetZenChickenCoopsConfig().GetMinFeathers(this.GetType());
 			int maxFeathers = GetZenChickenCoopsConfig().GetMaxFeathers(this.GetType());

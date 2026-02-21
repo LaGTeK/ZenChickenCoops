@@ -6,18 +6,18 @@ modded class MissionServer
 		super.OnInit();
 
 		// Dump objects / spawn chicken coops
-		if (GetGame().IsDedicatedServer())
+		if (g_Game.IsDedicatedServer())
 		{
 			// Dump object locations
 			if (GetZenChickenCoopsConfig().DumpObjectLocations)
 			{
 				// Wait 20 secs to ensure all vanilla + modded items are loaded in
-				GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater(DumpChickenCoopObjects, 20000, false);
+				g_Game.GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater(DumpChickenCoopObjects, 20000, false);
 			}
 			else
 			if (GetZenChickenCoopsConfig().SpawnChickenCoops || GetZenChickenCoopsConfig().DebugOn)
 			{
-				GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater(SetupChickenCoops, 20000, false);
+				g_Game.GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater(SetupChickenCoops, 20000, false);
 			}
 		}
 	}
@@ -40,7 +40,7 @@ modded class MissionServer
 			{
 				// Get objects within 1 meter of the config'd coop vector
 				array<Object> objectsNearCoop = new array<Object>;
-				GetGame().GetObjectsAtPosition(loc, 1, objectsNearCoop, null);
+				g_Game.GetObjectsAtPosition(loc, 1, objectsNearCoop, null);
 
 				// Prepare reused variables
 				string debugName = "";
@@ -54,7 +54,7 @@ modded class MissionServer
 
 					if (className.Contains("zen_chickencoop"))
 					{
-						GetGame().ObjectDelete(z_obj);
+						g_Game.ObjectDelete(z_obj);
 						break;
 					}
 				}
@@ -83,7 +83,7 @@ modded class MissionServer
 						if (GetZenChickenCoopsConfig().DebugOn)
 							coopModel = coopModel + "_Debug";
 
-						GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater(CreateZenChickenCoop, 1, false, obj, coopModel, objOffset, objOrient);
+						g_Game.GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater(CreateZenChickenCoop, 1, false, obj, coopModel, objOffset, objOrient);
 					}
 				}
 			}
@@ -99,7 +99,7 @@ modded class MissionServer
 			return;
 
 		childObjType.ToLower();
-		Object newObj = GetGame().CreateObject(childObjType, vector.Zero);
+		Object newObj = g_Game.CreateObject(childObjType, vector.Zero);
 		newObj.SetPosition(parentObj.GetPosition() + offset);
 		newObj.SetOrientation(parentObj.GetOrientation() + orient);
 		newObj.Update();
@@ -112,7 +112,7 @@ modded class MissionServer
 
 		// Get all objects on the map in a 30km radius from the center of that 30km radius (enough for most maps?)
 		array<Object> objectsOnMap = new array<Object>;
-		GetGame().GetObjectsAtPosition(Vector(10000, 0, 10000), 30000, objectsOnMap, null);
+		g_Game.GetObjectsAtPosition(Vector(10000, 0, 10000), 30000, objectsOnMap, null);
 		int objCount = 0;
 
 		foreach(ZenChickenCoopType coopType : GetZenChickenCoopsConfig().CoopTypes)
@@ -163,6 +163,6 @@ modded class MissionServer
 		objectsOnMap = NULL;
 
 		// Setup chicken coops
-		GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater(SetupChickenCoops, 5000, false);
+		g_Game.GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater(SetupChickenCoops, 5000, false);
 	}
 }
